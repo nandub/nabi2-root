@@ -1,0 +1,3 @@
+backup SDBO stockunrooted
+install /sdcard/root.zip
+install /sdcard/gapps.zip

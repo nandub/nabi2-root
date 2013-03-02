@@ -1,0 +1,67 @@
+Most Current Instructions: http://forum.xda-developers.com/showthread.php?p=34698705
+
+Here are the steps required to backup the Fuhu Nabi 2, install a custom recovery, root, and gapps using Ubuntu(12.10) Linux.
+Original root and recovery credit go to jmztaylor from this thread: http://forum.xda-developers.com/show....php?t=1905674
+You should do all of the OTA updates before rooting(otherwise you might lose WiFi) When I posted this the latest version was 1.9.37. Settings>About Tablet>Update>Check Update
+Download the needed files then extract all of the files to your home folder to begin. https://www.box.com/s/f8toudd1y8cm2omh14v2
+
+Open a terminal(ctrl+alt+t) and run the following command to install ADB and Fastboot (Universe Repos - Changeable in Software Sources).
+Code:
+
+sudo apt-get install android-tools-adb android-tools-fastboot
+
+On the device, enable USB debugging in Settings>Developer options, then connect USB cable.
+Just in case the adb server is already running, lets kill it using:
+Code:
+
+adb kill-server
+
+Now we will start the server and reboot the device:
+Code:
+
+sudo adb reboot-bootloader
+
+Once the device has rebooted into the bootloader, we will flash the new recovery image using fastboot:
+Code:
+
+sudo fastboot flash recovery recovery.img
+
+When fastboot is finished, boot the new recovery kernel on the Nabi2 by pressing vol+ then vol-(down to recovery) then vol+ to select.
+
+
+We will push the follwing files to the device.
+First we will push the Root file.
+Code:
+
+adb push root.zip /sdcard/root.zip
+
+Now we will push the Google Apps File
+Code:
+
+adb push gapps.zip /sdcard/gapps.zip
+
+This is the script that will backup then install Root and Google Apps onto the device.(you can also skip the script and do it manually if you like, but make sure you do a backup)
+Code:
+
+adb push backup-root-gapps.openrecoveryscript /cache/recovery/openrecoveryscript
+
+Now we will reboot the device and let the script do it's thing.
+Code:
+
+adb reboot recovery
+
+Your Fuhu Nabi2 is now rooted, w/gapps, and a custom recovery
+
+NOTE: The following is if you ever need to do an OTA update, which requires the original Nabi2 recovery.
+Download the original Nabi2 recovery image to your home folder https://www.box.com/s/9ogqkk8uu71bqrnpz9w1
+Reboot the device into the bootloader
+Code:
+
+sudo adb reboot-bootloader
+
+Finally we will flash the original recovery image to the device
+Code:
+
+sudo fastboot flash recovery nabi2_original_recovery.img
+
+
